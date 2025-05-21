@@ -1,183 +1,111 @@
-# Order API
+# 🧩 Microservices E-commerce System
 
-This is a Node.js microservice for creating orders. It uses **Express.js**, **MongoDB**, and publishes `OrderPlaced` events using **RabbitMQ**. The project follows **SOLID principles** and includes **Swagger documentation**.
-
----
-
-## 📦 Features
-
-- Create and retrieve orders
-- Publishes `OrderPlaced` event
-- MongoDB integration
-- Swagger (OpenAPI) docs at `/api-docs`
+This repository consists of three core microservices built using **Node.js** and **Express**, designed following the **SOLID principles** and integrating key technologies like **MongoDB**, **Redis**, **RabbitMQ**, and **Swagger**.
 
 ---
 
-## 🚀 Installation
+## 🧱 Services Overview
 
+### 1. 🛍 Product Catalog Service
+
+- **Tech**: Express, MongoDB, RabbitMQ, Swagger
+- **Function**: Manages product inventory (CRUD + stock updates)
+- **Events**: Listens for `OrderPlaced` to decrement stock
+- **Docs**: Swagger at `/api-docs`
+
+### 2. 🧾 Order Service
+
+- **Tech**: Express, MongoDB, RabbitMQ, Swagger
+- **Function**: Persists order data from cart checkout
+- **Events**: Publishes `OrderPlaced` after successful creation
+- **Docs**: Swagger at `/api-docs`
+
+### 3. 🛒 Cart Service
+
+- **Tech**: Express, Redis, Axios, Swagger
+- **Function**: Temporarily stores user cart, validates stock, sends to Order Service at checkout
+- **Docs**: Swagger at `/api-docs`
+
+---
+
+## 📦 Architecture
+
+```text
+User → Cart Service → Product Catalog (for stock check)
+                ↓
+         → Order Service ←→ RabbitMQ → Product Service (stock adjustment)
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone Repos
+```bash
+git clone <repo-url>
+cd <repo-folder>
+```
+
+### 2. Install Dependencies
 ```bash
 npm install
+```
+
+### 3. Setup Redis, MongoDB, RabbitMQ
+
+Ensure the following are running:
+- Redis on `localhost:6379`
+- MongoDB on `localhost:27017`
+- RabbitMQ on `amqp://localhost` (default guest:guest)
+
+### 4. Start Services
+```bash
+# Each service has its own server.js
 npm start
 ```
 
-> Make sure MongoDB and RabbitMQ are running locally.
+---
+
+## 🔄 Event Flow
+
+1. Cart sends order to Order API at checkout.
+2. Order API saves order and publishes `OrderPlaced` event.
+3. Product Service listens and updates stock accordingly.
 
 ---
 
-## 🌐 API Endpoints
+## 📝 Swagger API Docs
 
-| Method | Endpoint         | Description        |
-|--------|------------------|--------------------|
-| POST   | `/api/orders`    | Create new order   |
-| GET    | `/api/orders`    | Get all orders     |
-| GET    | `/api/orders/:id`| Get order by ID    |
+Each service provides Swagger UI at:
 
----
-
-## 🛠 Technologies
-
-- Express.js
-- MongoDB (Mongoose)
-- RabbitMQ (amqplib)
-- Swagger (swagger-jsdoc, swagger-ui-express)
+- Product: `http://localhost:3000/api-docs`
+- Order: `http://localhost:4000/api-docs`
+- Cart: `http://localhost:5003/api-docs`
 
 ---
 
-## 📘 Swagger Docs
+## ⚙️ Configuration
 
-Run the server and go to:  
-```
-http://localhost:4000/api-docs
-```
+Use `.env` files or config modules per service.
 
----
-
-## 📡 RabbitMQ
-
-- Queue: `OrderPlaced`
-- Used to notify other services (e.g., Product Service) of new orders
-
-Make sure RabbitMQ is running on:
+Example:
 
 ```
-amqp://localhost
-```
-
-You can customize the URL with auth:
-
-```
-amqp://username:password@hostname:5672/
+REDIS_HOST=localhost
+MONGO_URI=mongodb://localhost:27017
+RABBITMQ_URI=amqp://guest:guest@localhost
+PRODUCT_API=http://localhost:3000/api/products
+ORDER_API=http://localhost:3001/api/orders
 ```
 
 ---
 
-## 🧱 Project Structure
+## 📬 Contributing
 
-```
-controllers/
-routes/
-services/
-repositories/
-models/
-events/
-config/
-```
+Fork this repo and contribute improvements, fixes, or enhancements.
 
 ---
 
-## 🔑 License
+## 📄 License
 
-MIT
-# Product API
-
-This is a Node.js microservice for managing products. It uses **Express.js**, **MongoDB**, and listens to **RabbitMQ** events. The project follows **SOLID principles** and includes **Swagger documentation**.
-
----
-
-## 📦 Features
-
-- Create, Read, Delete products
-- Update product stock
-- Listen to `OrderPlaced` events via RabbitMQ
-- MongoDB integration
-- Swagger (OpenAPI) docs at `/api-docs`
-
----
-
-## 🚀 Installation
-
-```bash
-npm install
-npm start
-```
-
-> Make sure MongoDB and RabbitMQ are running locally.
-
----
-
-## 🌐 API Endpoints
-
-| Method | Endpoint                 | Description           |
-|--------|--------------------------|-----------------------|
-| GET    | `/api/products`          | Get all products      |
-| GET    | `/api/products/:id`      | Get product by ID     |
-| POST   | `/api/products`          | Create a product      |
-| DELETE | `/api/products/:id`      | Delete a product      |
-| PATCH  | `/api/products/:id/stock`| Update stock quantity |
-
----
-
-## 🛠 Technologies
-
-- Express.js
-- MongoDB (Mongoose)
-- RabbitMQ (amqplib)
-- Swagger (swagger-jsdoc, swagger-ui-express)
-
----
-
-## 📘 Swagger Docs
-
-Run the server and go to:  
-```
-http://localhost:3000/api-docs
-```
-
----
-
-## 📡 RabbitMQ
-
-- Queue: `OrderPlaced`
-- Used to update stock when an order is placed
-
-Make sure RabbitMQ is running on:
-
-```
-amqp://localhost
-```
-
-You can customize the URL with auth:
-
-```
-amqp://username:password@hostname:5672/
-```
-
----
-
-## 🧱 Project Structure
-
-```
-controllers/
-routes/
-services/
-repositories/
-models/
-events/
-config/
-```
-
----
-
-## 🔑 License
-
-MIT
+MIT © 2025

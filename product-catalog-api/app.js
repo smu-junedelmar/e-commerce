@@ -12,8 +12,6 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// eventBus.publish('OrderPlaced', { productId: 'abc123', quantity: 1 });
-
 listenToOrderPlaced();
 
 const PORT = 3000;
