@@ -1,0 +1,5 @@
+<div class="cart-grid">
+    @for (product of products; track $index) {
+        <app-cart-item [item]="product"></app-cart-item>
+    }
+</div>
