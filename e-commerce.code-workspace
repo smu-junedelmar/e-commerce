@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "order-api"
+		},
+		{
+			"path": "cart-api"
 		}
 	],
 	"settings": {}

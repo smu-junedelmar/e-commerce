@@ -5,15 +5,27 @@ async function listenToOrderPlaced() {
   await eventBus.subscribe('OrderPlaced', async (event) => {
     console.log('OrderPlaced event received:', event);
 
-    // Example event: { productId: "abc123", quantity: 2 }
+    // New format:
+    // {
+    //   orderId: "order123",
+    //   userId: "user456",
+    //   items: [
+    //     { productId: "abc123", quantity: 2 },
+    //     { productId: "def456", quantity: 1 }
+    //   ],
+    //   createdAt: "2024-05-20T12:00:00Z"
+    // }
 
-    const product = await productService.getProductById(event.productId);
-    if (product && product.stock >= event.quantity) {
-      const newStock = product.stock - event.quantity;
-      await productService.updateStock(event.productId, newStock);
-      console.log(`Stock updated for product ${event.productId}: ${newStock}`);
-    } else {
-      console.warn(`Insufficient stock for product ${event.productId}`);
+    for (const item of event.items) {
+      const product = await productService.getProductById(item.productId);
+
+      if (product && product.stock >= item.quantity) {
+        const newStock = product.stock - item.quantity;
+        await productService.updateStock(item.productId, newStock);
+        console.log(`Stock updated for product ${item.productId}: ${newStock}`);
+      } else {
+        console.warn(`Insufficient stock for product ${item.productId}`);
+      }
     }
   });
 }
