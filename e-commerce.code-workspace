@@ -11,7 +11,12 @@
 		},
 		{
 			"path": "client/ecommerce-ui"
+		},
+		{
+			"path": "order-api-net/Order.Api"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"dotnet.defaultSolution": "product-catalog-api/Order.sln"
+	}
 }

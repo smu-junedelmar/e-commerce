@@ -93,8 +93,6 @@ dist
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
 # vuepress build output
@@ -134,3 +132,76 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# ---------------------------------------------------
+# .NET / Visual Studio / C#
+# ---------------------------------------------------
+
+## Build results
+bin/
+obj/
+[Ll]og/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Visual Studio
+.vs/
+.vscode/
+*.dbmdl
+*.psess
+*.vsp
+*.vspx
+*.vspscc
+*.vssscc
+*.cache
+*.pidb
+*.svclog
+*.sdf
+*.cachefile
+*.tlog
+*.log
+
+## Rider
+.idea/
+*.sln.iml
+
+## Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## dotCover
+*.dotCover
+
+## NUnit
+*.VisualState.xml
+TestResult.xml
+TestResults/
+nunit-*.xml
+
+## xUnit
+*.xunit.xml
+
+## MSTest
+*.trx
+*.testsettings
+
+## StyleCop
+StyleCopReport.xml
+
+## Others
+*.ncrunch*
+*.localhistory
+*.orig
+*.sublime-workspace
+*.sublime-project
+
+## Dotnet CLI
+.project
+.global.json
+*.vsconfig*
